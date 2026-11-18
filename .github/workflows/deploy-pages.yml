@@ -1,0 +1,73 @@
+name: Deploy Fields Medal Site
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+
+      - name: Run build script
+        run: python scripts/build_medalists.py
+        working-directory: .
+
+      - name: Verify generated content
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          def verify_file(path, label):
+              content = Path(path).read_text(encoding="utf-8")
+              begin = f"<!-- BEGIN {label} -->"
+              end = f"<!-- END {label} -->"
+
+              if content.count(begin) != 1 or content.count(end) != 1:
+                  raise SystemExit(f"{path}: missing or duplicate markers")
+
+              start = content.index(begin) + len(begin)
+              stop = content.index(end)
+              if start > stop or "<li>" not in content[start:stop]:
+                  raise SystemExit(f"{path}: markers out of order or generated list is empty")
+
+          verify_file("index.html", "GENERATED LATEST MEDALISTS")
+          verify_file("medalists.html", "GENERATED MEDALISTS")
+          PY
+
+      - name: Stage files for deployment
+        run: |
+          mkdir -p _site/
+          cp index.html _site/
+          cp medalists.html _site/
+          cp styles.css _site/
+          cp medalists.js _site/
+
+      - name: Upload generated files as pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site/
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
