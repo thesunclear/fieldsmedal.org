@@ -7,7 +7,8 @@ def main():
     # Resolve paths relative to this script
     script_dir = Path(__file__).parent
     data_path = script_dir / "../data/medalists.json"
-    html_path = script_dir / "../medalists.html"
+    medalists_html_path = script_dir / "../medalists.html"
+    index_html_path = script_dir / "../index.html"
 
     # Read JSON data
     try:
@@ -25,31 +26,31 @@ def main():
             groups[year] = []
         groups[year].append(entry)
 
-    # Read and validate HTML template
+    # Process medalists.html first
     try:
-        with open(html_path, 'r', encoding='utf-8') as f:
-            html_content = f.read()
+        with open(medalists_html_path, 'r', encoding='utf-8') as f:
+            medalists_content = f.read()
     except Exception as e:
-        print(f"Error reading {html_path}: {e}")
+        print(f"Error reading {medalists_html_path}: {e}")
         return
 
-    # Find the generated block markers
-    start_marker = "<!-- BEGIN GENERATED MEDALISTS -->"
-    end_marker = "<!-- END GENERATED MEDALISTS -->"
+    # Validate markers in medalists.html
+    start_marker_medalists = "<!-- BEGIN GENERATED MEDALISTS -->"
+    end_marker_medalists = "<!-- END GENERATED MEDALISTS -->"
 
-    if html_content.count(start_marker) != 1 or html_content.count(end_marker) != 1:
-        print(f"Error: Missing or duplicated marker in {html_path}")
+    if medalists_content.count(start_marker_medalists) != 1 or medalists_content.count(end_marker_medalists) != 1:
+        print(f"Error: Missing or duplicated marker in {medalists_html_path}")
         return
 
-    start_idx = html_content.find(start_marker)
-    end_idx = html_content.find(end_marker)
+    start_idx_medalists = medalists_content.find(start_marker_medalists)
+    end_idx_medalists = medalists_content.find(end_marker_medalists)
 
-    if start_idx >= end_idx:
-        print(f"Error: Start marker appears after end marker in {html_path}")
+    if start_idx_medalists >= end_idx_medalists:
+        print(f"Error: Start marker appears after end marker in {medalists_html_path}")
         return
 
-    # Generate the new medalist content
-    generated_html = ""
+    # Generate medalists content (same as before)
+    generated_medalists_html = ""
     for year, entries in sorted(groups.items(), key=lambda x: -int(x[0])):
         group_content = f'<section class="year-group" data-year="{year}">'
         group_content += f"<h2>{year}</h2><ul>"
@@ -63,26 +64,79 @@ def main():
             group_content += f"<li>{escaped_name}</li>"
 
         group_content += "</ul></section>"
-        generated_html += group_content
+        generated_medalists_html += group_content
 
-    # Replace only the content between markers, preserving both comments
-    before_start = html_content[:start_idx]
-    after_end = html_content[end_idx + len(end_marker):]
-    new_html = (
-        before_start + start_marker + "\n"
-        + generated_html + "\n        " + end_marker + after_end
+    # Replace content in medalists.html while preserving markers
+    before_start_medalists = medalists_content[:start_idx_medalists]
+    after_end_medalists = medalists_content[end_idx_medalists + len(end_marker_medalists):]
+    new_medalists_html = (
+        before_start_medalists + start_marker_medalists + "\n"
+        + generated_medal手段_html + "\n        " + end_marker_medalists + after_end_medalists
     )
 
-    # Write back to medalists.html
+    # Process index.html next
     try:
-        with open(html_path, 'w', encoding='utf-8') as f:
-            f.write(new_html)
+        with open(index_html_path, 'r', encoding='utf-8') as f:
+            index_content = f.read()
     except Exception as e:
-        print(f"Error writing {html_path}: {e}")
+        print(f"Error reading {index_html_path}: {e}")
+        return
+
+    # Validate markers in index.html
+    start_marker_index = "<!-- BEGIN GENERATED LATEST MEDALISTS -->"
+    end_marker_index = "<!-- END GENERATED LATEST MEDALISTS -->"
+
+    if index_content.count(start_marker_index) != 1 or index_content.count(end_marker_index) != 1:
+        print(f"Error: Missing or duplicated marker in {index_html_path}")
+        return
+
+    start_idx_index = index_content.find(start_marker_index)
+    end_idx_index = index_content.find(end_marker_index)
+
+    if start_idx_index >= end_idx_index:
+        print(f"Error: Start marker appears after end marker in {index_html_path}")
+        return
+
+    # Generate latest medalists content from JSON data
+    latest_year = next(iter(groups.keys()))  # Get the first (newest) year from sorted groups
+    latest_entries = groups[latest_year]
+
+    generated_latest_html = f"<h2>{latest_year}</h2><ul>"
+    for entry in latest_entries:
+        name = entry['name']
+        status = entry.get('status')
+        if status == "declined":
+            name += " (declined the medal)"
+        escaped_name = html.escape(name)
+        generated_latest_html += f"<li>{escaped_name}</li>"
+    generated_latest_html += "</ul>"
+
+    # Replace content in index.html while preserving markers
+    before_start_index = index_content[:start_idx_index]
+    after_end_index = index_content[end_idx_index + len(end_marker_index):]
+    new_index_html = (
+        before_start_index + start_marker_index + "\n"
+        + generated_latest_html + "\n        " + end_marker_index + after_end_index
+    )
+
+    # Write back to both files (do not write if any error occurred)
+    try:
+        with open(medalists_html_path, 'w', encoding='utf-8') as f:
+            f.write(new_medalists_html)
+    except Exception as e:
+        print(f"Error writing {medalists_html_path}: {e}")
+        return
+
+    try:
+        with open(index_html_path, 'w', encoding='utf-8') as f:
+            f.write(new_index_html)
+    except Exception as e:
+        print(f"Error writing {index_html_path}: {e}")
         return
 
     # Verification output
     print(f"Generated {len(groups)} year groups containing {sum(len(v) for v in groups.values())} medalists")
+    print(f"Updated Latest Medalists section with {len(latest_entries)} names from {latest_year}")
 
 if __name__ == "__main__":
     main()
