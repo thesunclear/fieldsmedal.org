@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+import html
 
 def main():
     # Resolve paths relative to this script
@@ -40,10 +41,17 @@ def main():
         print(f"Error: Missing or duplicated marker in {html_path}")
         return
 
+    start_idx = html_content.find(start_marker)
+    end_idx = html_content.find(end_marker)
+
+    if start_idx >= end_idx:
+        print(f"Error: Start marker appears after end marker in {html_path}")
+        return
+
     # Generate the new medalist content
     generated_html = ""
     for year, entries in sorted(groups.items(), key=lambda x: -int(x[0])):
-        group_content = f"<section class=\"year-group\" data-year="{year}">"
+        group_content = f'<section class="year-group" data-year="{year}">'
         group_content += f"<h2>{year}</h2><ul>"
 
         for entry in entries:
@@ -51,13 +59,16 @@ def main():
             status = entry.get('status')
             if status == "declined":
                 name += " (declined the medal)"
-            group_content += f"<li>{name}</li>"
+            escaped_name = html.escape(name)
+            group_content += f"<li>{escaped_name}</li>"
 
         group_content += "</ul></section>"
         generated_html += group_content
 
-    # Replace only the marked block in the HTML file
-    new_html = html_content.replace(start_marker, generated_html, 1).replace(end_marker, "", 1)
+    # Replace only the content between markers, preserving both comments
+    before_start = html_content[:start_idx]
+    after_end = html_content[end_idx + len(end_marker):]
+    new_html = before_start + generated_html + after_end
 
     # Write back to medalists.html
     try:
