@@ -71,7 +71,7 @@ def main():
     after_end_medalists = medalists_content[end_idx_medalists + len(end_marker_medalists):]
     new_medalists_html = (
         before_start_medalists + start_marker_medalists + "\n"
-        + generated_medal手段_html + "\n        " + end_marker_medalists + after_end_medalists
+        + generated_medalists_html + "\n        " + end_marker_medalists + after_end_medalists
     )
 
     # Process index.html next
