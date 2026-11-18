@@ -43,7 +43,7 @@ def main():
         return
 
     start_idx_medalists = medalists_content.find(start_marker_medalists)
-    end_idx_medalists = medalists_content.find(end_marker_medal义ists)
+    end_idx_medalists = medalists_content.find(end_marker_medalists)
 
     if start_idx_medalists >= end_idx_medalists:
         print(f"Error: Start marker appears after end marker in {medalists_html_path}")
@@ -122,14 +122,15 @@ def main():
             generated_latest_html += f"<br><small>{escaped_summary}</small>"
         generated_latest_html += "</li>"
 
+    # Move closing </ul> before citation-link block
+    generated_latest_html += "</ul>"
+
     # Add source link for 2026 citations only
     if latest_year == '2026':
         generated_latest_html += f"<p><a href=\"https://www.mathunion.org/imu-awards/fields-medal/fields-medals-2026\">IMU award citations</a></p>"
     else:
         # Use general IMU link if not 2026
         generated_latest_html += f"<p><a href=\"https://www.mathunion.org/imu-awards/fields-medal\">IMU award citations</a></p>"
-
-    generated_latest_html += "</ul>"
 
     # Replace content in index.html while preserving markers
     before_start_index = index_content[:start_idx_index]
