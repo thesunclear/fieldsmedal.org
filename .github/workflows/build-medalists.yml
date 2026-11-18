@@ -25,34 +25,24 @@ jobs:
       - name: Verify generated content
         run: |
           python - <<'PY'
-import os
-from pathlib import Path
+          from pathlib import Path
 
-def verify_file(path, begin_marker, end_marker):
-    with open(path, 'r', encoding='utf-8') as f:
-        content = f.read()
+          def verify_file(path, label):
+              content = Path(path).read_text(encoding="utf-8")
+              begin = f"<!-- BEGIN {label} -->"
+              end = f"<!-- END {label} -->"
 
-    # Check marker order and count
-    if content.count(begin_marker) != 1 or content.count(end_marker) != 1:
-        print(f"Error: File {path} has incorrect number of markers")
-        exit(1)
+              if content.count(begin) != 1 or content.count(end) != 1:
+                  raise SystemExit(f"{path}: missing or duplicate markers")
 
-    begin_idx = content.find(begin_marker)
-    end_idx = content.find(end_marker)
+              start = content.index(begin) + len(begin)
+              stop = content.index(end)
+              if start > stop or "<li>" not in content[start:stop]:
+                  raise SystemExit(f"{path}: markers out of order or generated list is empty")
 
-    if begin_idx >= end_idx:
-        print(f"Error: BEGIN marker appears after END marker in {path}")
-        exit(1)
-
-    # Check for at least one <li> between markers
-    section_content = content[begin_idx + len(begin_marker):end_idx]
-    if '<li>' not in section_content:
-        print(f"Error: No <li> found in {path} between generated markers")
-        exit(1)
-
-verify_file('index.html', "<!-- BEGIN GENERATED LATEST MEDALISTS -->", "<!-- END GENERATED LATEST MEDALISTS -->")
-verify_file('medalists.html', "<!-- BEGIN GENERATED MEDALISTS -->", "<!-- END GENERATED MEDALISTS -->")
-PY
+          verify_file("index.html", "GENERATED LATEST MEDALISTS")
+          verify_file("medalists.html", "GENERATED MEDALISTS")
+          PY
 
       - name: Upload generated files as artifact
         uses: actions/upload-artifact@v7
