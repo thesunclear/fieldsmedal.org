@@ -83,6 +83,17 @@ a[ href="medalists.html"] {
   border-radius: 4px;
 }
 
+/* Mathematics section layout */
+section[aria-labelledby="mathematics-heading"] {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0 1.5rem;
+}
+
+section[aria-labelledby="mathematics-heading"] > h2 {
+  grid-column: 1 / -1;
+}
+
 /* Footer styling */
 footer {
   margin-top: 3em;
@@ -96,6 +107,10 @@ footer {
   nav ul {
     flex-direction: column;
     align-items: stretch;
+  }
+  
+  section[aria-labelledby="mathematics-heading"] {
+    flex-direction: column;
   }
 }
 
@@ -115,4 +130,28 @@ a:focus, button:focus {
   section[aria-labelledby="mathematics-heading"] > h2 {
     grid-column: 1 / -1;
   }
+}
+
+/* Medalists page specific styles */
+.search-section {
+  margin-bottom: 2em;
+}
+
+.search-section label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 0.5em;
+}
+
+.search-section input {
+  width: 100%;
+  padding: 0.5em;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.search-section p {
+  margin-top: 0.5em;
+  color: var(--accent);
+  font-weight: bold;
 }

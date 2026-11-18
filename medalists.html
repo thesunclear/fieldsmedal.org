@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Fields Medal - Medalists</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <a href="index.html">The Fields Medal</a>
+        <nav>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="medalists.html" aria-current="page">Medalists</a></li>
+                <li><a href="about.html">About the Medal</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section class="search-section">
+            <label for="search">Search by name or year:</label>
+            <input type="text" id="search" aria-label="Search medalists by name or year">
+            <p id="result-count"></p>
+        </section>
+
+        <section class="year-group" data-year="2022">
+            <h2>2022</h2>
+            <ul>
+                <li>Hugo Duminil-Copin</li>
+                <li>June Huh</li>
+                <li>James Maynard</li>
+                <li>Maryna Viazovska</li>
+            </ul>
+        </section>
+
+        <section class="year-group" data-year="2018">
+            <h2>2018</h2>
+            <ul>
+                <li>Caucher Birkar</li>
+                <li>Alessio Figalli</li>
+                <li>Peter Scholze</li>
+                <li>Akshay Venkatesh</li>
+            </ul>
+        </section>
+
+        <p>This version currently covers Fields Medalists from 2018 and 2022. For the complete directory, visit the <a href="https://www.mathunion.org/imu-awards/fields-medal">official IMU page</a>.</p>
+    </main>
+
+    <footer>
+        <p>An independent educational site. Learn more about the Fields Medal at the <a href="https://www.mathunion.org/imu-awards/fields-medal" rel="noopener noreferrer">official IMU page</a>.</p>
+    </footer>
+
+    <script src="medalists.js" defer></script>
+</body>
+</html>
