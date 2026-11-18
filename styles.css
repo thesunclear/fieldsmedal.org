@@ -1,123 +1,97 @@
-/* styles.css - Mathematics journal style for Fields Medal site */
+/* Reset and base styles */
 
-:root {
-  --background: #f9f9f9;
-  --text-color: #2e2e2e;
-  --accent: #800020;
-  --heading-font: serif;
-  --body-font: sans-serif;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
 body {
-  background: var(--background);
-  color: var(--text-color);
-  font-family: var(--body-font);
+  background-color: #fdf6e3;
+  color: #121212;
+  font-family: system-ui, sans-serif;
   line-height: 1.6;
-  margin: 0;
-  padding: 0;
-  max-width: 75em;
-  margin-left: auto;
-  margin-right: auto;
+  max-width: 75rem;
+  margin: 0 auto;
+  padding: 1rem 1.5rem;
 }
 
 header {
-  background: #fff;
-  border-bottom: 1px solid #ddd;
-  padding: 1em 0;
+  border-bottom: 1px solid #dcdcdc;
+  margin-bottom: 1.5rem;
+  text-align: center;
 }
 
 header a {
-  color: var(--accent);
+  display: block;
+  font-size: 2em;
+  margin-bottom: 0.5rem;
   text-decoration: none;
-  font-weight: bold;
+  color: #121212;
 }
 
 nav ul {
   list-style: none;
   padding: 0;
-  margin: 0;
-  display: flex;
-  gap: 1em;
-  flex-wrap: wrap;
+}
+
+nav li {
+  display: inline;
+  margin-right: 1rem;
 }
 
 nav a {
-  color: var(--text-color);
   text-decoration: underline;
 }
 
 main {
-  padding: 2em 1em;
-}
-
-section {
-  margin-bottom: 2em;
-  border-bottom: 1px solid #eee;
+  margin-bottom: 2rem;
 }
 
 h1 {
-  font-family: var(--heading-font);
-  font-size: 2.5em;
-  margin-top: 0;
-  color: var(--accent);
+  font-size: 3em;
+  margin-bottom: 0.5rem;
 }
 
-section p {
-  margin-bottom: 1em;
+h2 {
+  font-size: 1.5em;
+  margin-top: 2rem;
+  margin-bottom: 0.5rem;
 }
 
-/* Subtitle styling */
-p + p {
-  font-style: italic;
-  font-size: 0.95em;
-  margin-top: 0.25em;
+section {
+  margin-bottom: 2rem;
 }
 
-/* Call to action link */
-a[ href="medalists.html"] {
+a.primary-cta {
+  background-color: #d73a49;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.3rem;
   display: inline-block;
-  padding: 0.5em 1em;
-  background: var(--accent);
-  color: #fff;
   text-decoration: none;
-  border-radius: 4px;
 }
 
-/* Mathematics section layout */
-section[aria-labelledby="mathematics-heading"] {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 1.5rem;
+/* Layout for mathematics section */
+#mathematics {
+  margin-top: 2rem;
 }
 
-section[aria-labelledby="mathematics-heading"] > h2 {
-  grid-column: 1 / -1;
+#mathematics ul {
+  list-style: none;
+  padding-left: 0;
 }
 
-/* Footer styling */
+#mathematics li {
+  margin-bottom: 1rem;
+}
+
+/* Footer styles */
 footer {
-  margin-top: 3em;
-  border-top: 1px solid #eee;
-  padding-top: 2em;
+  border-top: 1px solid #dcdcdc;
+  margin-top: 3rem;
+  padding-top: 1.5rem;
   font-size: 0.9em;
-}
-
-/* Responsive adjustments */
-@media (max-width: 600px) {
-  nav ul {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  section[aria-labelledby="mathematics-heading"] {
-    flex-direction: column;
-  }
-}
-
-/* Focus styles for accessibility */
-a:focus, button:focus {
-  outline: 2px solid var(--accent);
-  outline-offset: 2px;
 }
 
 @media (min-width: 768px) {
@@ -130,28 +104,4 @@ a:focus, button:focus {
   section[aria-labelledby="mathematics-heading"] > h2 {
     grid-column: 1 / -1;
   }
-}
-
-/* Medalists page specific styles */
-.search-section {
-  margin-bottom: 2em;
-}
-
-.search-section label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 0.5em;
-}
-
-.search-section input {
-  width: 100%;
-  padding: 0.5em;
-  font-size: 1em;
-  box-sizing: border-box;
-}
-
-.search-section p {
-  margin-top: 0.5em;
-  color: var(--accent);
-  font-weight: bold;
 }
