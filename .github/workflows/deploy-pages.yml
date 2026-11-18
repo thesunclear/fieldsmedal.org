@@ -51,6 +51,10 @@ jobs:
           cp medalists.html _site/
           cp styles.css _site/
           cp medalists.js _site/
+          
+          cp about.html _site/
+          mkdir -p _site/mathematics/
+          cp mathematics/june-huh.html mathematics/maryna-viazovska.html _site/mathematics/
 
       - name: Upload generated files as pages artifact
         uses: actions/upload-pages-artifact@v4
