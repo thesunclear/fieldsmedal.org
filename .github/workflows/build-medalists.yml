@@ -1,0 +1,48 @@
+name: Build Medalist HTML
+
+on:
+  workflow_dispatch:
+    types: [repository_dispatch]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v7
+        with:
+          python-version: '3.13'
+
+      - name: Run build script
+        run: python scripts/build_medalists.py
+        working-directory: .
+
+      - name: Verify index.html content
+        run: |
+          # Check for at least one <li> between markers in index.html
+          if ! grep -A 1000 "<li>" index.html | grep -B 1000 "END GENERATED LATEST MEDALISTS"; then
+            echo "No <li> found in index.html between generated markers"
+            exit 1
+          fi
+
+      - name: Verify medalists.html content
+        run: |
+          # Check for at least one <li> between markers in medalists.html
+          if ! grep -A 1000 "<li>" medalists.html | grep -B 1000 "END GENERATED MEDALISTS"; then
+            echo "No <li> found in medalists.html between generated markers"
+            exit 1
+          fi
+
+      - name: Upload generated files as artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: medalist-html
+          path: "**/index.html"
+          path: "**/medalists.html"
+        if-no-files-found: error
