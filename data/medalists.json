@@ -1,0 +1,90 @@
+[
+    {"year": 2026, "name": "Yu Deng"},
+    {"year": 2026, "name": "John Pardon"},
+    {"year": 2026, "name": "Jacob Tsimerman"},
+    {"year": 2026, "name": "Hong Wang"},
+
+    {"year": 2022, "name": "Hugo Duminil-Copin"},
+    {"year": 2022, "name": "June Huh"},
+    {"year": 2022, "name": "James Maynard"},
+    {"year": 2022, "name": "Maryna Viazovska"},
+
+    {"year": 2018, "name": "Caucher Birkar"},
+    {"year": 2018, "name": "Alessio Figalli"},
+    {"year": 2018, "name": "Peter Scholze"},
+    {"year": 2018, "name": "Akshay Venkatesh"},
+
+    {"year": 2014, "name": "Artur Avila"},
+    {"year": 2014, "name": "Manjul Bhargava"},
+    {"year": 2014, "name": "Martin Hairer"},
+    {"year": 2014, "name": "Maryam Mirzakhani"},
+
+    {"year": 2010, "name": "Elon Lindenstrauss"},
+    {"year": 2010, "name": "Ngô Bào Châu"},
+    {"year": 2010, "name": "Stanislav Smirnov"},
+    {"year": 2010, "name": "Cédric Villani"},
+
+    {"year": 2006, "name": "Andrei Okounkov"},
+    {"year": 2006, "name": "Grigori Perelman", "status": "declined"},
+    {"year": 2006, "name": "Terence Tao"},
+    {"year": 2006, "name": "Wendelin Werner"},
+
+    {"year": 2002, "name": "Laurent Lafforgue"},
+    {"year": 2002, "name": "Vladimir Voevodsky"},
+
+    {"year": 1998, "name": "Richard E. Borcherds"},
+    {"year": 1998, "name": "W. Timothy Gowers"},
+    {"year": 1998, "name": "Maxim Kontsevich"},
+    {"year": 1998, "name": "Curtis T. McMullen"},
+
+    {"year": 1994, "name": "Jean Bourgain"},
+    {"year": 1994, "name": "Pierre-Louis Lions"},
+    {"year": 1994, "name": "Jean-Christophe Yoccoz"},
+    {"year": 1994, "name": "Efim Zelmanov"},
+
+    {"year": 1990, "name": "Vladimir Drinfeld"},
+    {"year": 1990, "name": "Vaughan F. R. Jones"},
+    {"year": 1990, "name": "Shigefumi Mori"},
+    {"year": 1990, "name": "Edward Witten"},
+
+    {"year": 1986, "name": "Simon K. Donaldson"},
+    {"year": 1986, "name": "Gerd Faltings"},
+    {"year": 1986, "name": "Michael H. Freedman"},
+
+    {"year": 1982, "name": "Alain Connes"},
+    {"year": 1982, "name": "William P. Thurston"},
+    {"year": 1982, "name": "Shing-Tung Yau"},
+
+    {"year": 1978, "name": "Pierre René Deligne"},
+    {"year": 1978, "name": "Charles Louis Fefferman"},
+    {"year": 1978, "name": "Gregori Alexandrovitch Margulis"},
+    {"year": 1978, "name": "Daniel G. Quillen"},
+
+    {"year": 1974, "name": "Enrico Bombieri"},
+    {"year": 1974, "name": "David Bryant Mumford"},
+
+    {"year": 1970, "name": "Alan Baker"},
+    {"year": 1970, "name": "Heisuke Hironaka"},
+    {"year": 1970, "name": "Serge Novikov"},
+    {"year": 1970, "name": "John Griggs Thompson"},
+
+    {"year": 1966, "name": "Michael Francis Atiyah"},
+    {"year": 1966, "name": "Paul Joseph Cohen"},
+    {"year": 1966, "name": "Alexander Grothendieck"},
+    {"year": 1966, "name": "Stephen Smale"},
+
+    {"year": 1962, "name": "Lars Hörmander"},
+    {"year": 1962, "name": "John Willard Milnor"},
+
+    {"year": 1958, "name": "Klaus Friedrich Roth"},
+    {"year": 1958, "name": "René Thom"},
+
+    {"year": 1954, "name": "Kunihiko Kodaira"},
+    {"year": 1954, "name": "Jean-Pierre Serre"},
+
+    {"year": 1950, "name": "Laurent Schwartz"},
+    {"year": 1950, "name": "Atle Selberg"},
+
+    {"year": 1936, "name": "Lars Valerian Ahlfors"},
+    {"year": 1936, "name": "Jesse Douglas"}
+]
