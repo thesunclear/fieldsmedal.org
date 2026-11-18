@@ -43,7 +43,7 @@ def main():
         return
 
     start_idx_medalists = medalists_content.find(start_marker_medalists)
-    end_idx_medalists = medalists_content.find(end_marker_medalists)
+    end_idx_medalists = medalists_content.find(end_marker_medal义ists)
 
     if start_idx_medalists >= end_idx_medalists:
         print(f"Error: Start marker appears after end marker in {medalists_html_path}")
@@ -107,8 +107,28 @@ def main():
         status = entry.get('status')
         if status == "declined":
             name += " (declined the medal)"
+        field = entry.get('field', '')
+        summary = entry.get('summary', '')
+
         escaped_name = html.escape(name)
-        generated_latest_html += f"<li>{escaped_name}</li>"
+        escaped_field = html.escape(field) if field else ''
+        escaped_summary = html.escape(summary) if summary else ''
+
+        # Add field and summary to the <li> if present
+        generated_latest_html += f"<li>{escaped_name}"
+        if escaped_field:
+            generated_latest_html += f"<br><small>{escaped_field}</small>"
+        if escaped_summary:
+            generated_latest_html += f"<br><small>{escaped_summary}</small>"
+        generated_latest_html += "</li>"
+
+    # Add source link for 2026 citations only
+    if latest_year == '2026':
+        generated_latest_html += f"<p><a href=\"https://www.mathunion.org/imu-awards/fields-medal/fields-medals-2026\">IMU award citations</a></p>"
+    else:
+        # Use general IMU link if not 2026
+        generated_latest_html += f"<p><a href=\"https://www.mathunion.org/imu-awards/fields-medal\">IMU award citations</a></p>"
+
     generated_latest_html += "</ul>"
 
     # Replace content in index.html while preserving markers
