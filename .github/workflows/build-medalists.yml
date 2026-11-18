@@ -2,7 +2,6 @@ name: Build Medalist HTML
 
 on:
   workflow_dispatch:
-    types: [repository_dispatch]
 
 jobs:
   build:
@@ -23,26 +22,43 @@ jobs:
         run: python scripts/build_medalists.py
         working-directory: .
 
-      - name: Verify index.html content
+      - name: Verify generated content
         run: |
-          # Check for at least one <li> between markers in index.html
-          if ! grep -A 1000 "<li>" index.html | grep -B 1000 "END GENERATED LATEST MEDALISTS"; then
-            echo "No <li> found in index.html between generated markers"
-            exit 1
-          fi
+          python - <<'PY'
+import os
+from pathlib import Path
 
-      - name: Verify medalists.html content
-        run: |
-          # Check for at least one <li> between markers in medalists.html
-          if ! grep -A 1000 "<li>" medalists.html | grep -B 1000 "END GENERATED MEDALISTS"; then
-            echo "No <li> found in medalists.html between generated markers"
-            exit 1
-          fi
+def verify_file(path, begin_marker, end_marker):
+    with open(path, 'r', encoding='utf-8') as f:
+        content = f.read()
+
+    # Check marker order and count
+    if content.count(begin_marker) != 1 or content.count(end_marker) != 1:
+        print(f"Error: File {path} has incorrect number of markers")
+        exit(1)
+
+    begin_idx = content.find(begin_marker)
+    end_idx = content.find(end_marker)
+
+    if begin_idx >= end_idx:
+        print(f"Error: BEGIN marker appears after END marker in {path}")
+        exit(1)
+
+    # Check for at least one <li> between markers
+    section_content = content[begin_idx + len(begin_marker):end_idx]
+    if '<li>' not in section_content:
+        print(f"Error: No <li> found in {path} between generated markers")
+        exit(1)
+
+verify_file('index.html', "<!-- BEGIN GENERATED LATEST MEDALISTS -->", "<!-- END GENERATED LATEST MEDALISTS -->")
+verify_file('medalists.html', "<!-- BEGIN GENERATED MEDALISTS -->", "<!-- END GENERATED MEDALISTS -->")
+PY
 
       - name: Upload generated files as artifact
         uses: actions/upload-artifact@v7
         with:
           name: medalist-html
-          path: "**/index.html"
-          path: "**/medalists.html"
-        if-no-files-found: error
+          path: |
+            index.html
+            medalists.html
+          if-no-files-found: error
