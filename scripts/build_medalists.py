@@ -68,7 +68,10 @@ def main():
     # Replace only the content between markers, preserving both comments
     before_start = html_content[:start_idx]
     after_end = html_content[end_idx + len(end_marker):]
-    new_html = before_start + generated_html + after_end
+    new_html = (
+        before_start + start_marker + "\n"
+        + generated_html + "\n        " + end_marker + after_end
+    )
 
     # Write back to medalists.html
     try:
